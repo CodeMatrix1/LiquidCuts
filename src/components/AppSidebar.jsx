@@ -19,24 +19,14 @@ const items = [
     icon: Home,
   },
   {
-    title: "Inbox",
+    title: "Layoffs",
     url: "#",
     icon: Inbox,
   },
   {
-    title: "Calendar",
+    title: "Insights",
     url: "#",
     icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
   },
 ];
 

@@ -1,7 +1,8 @@
-import LayoffTreemap from "@/components/TreeMap";
+import React from "react";
 import ListNews from "@/components/ListNews";
+import MarketTrendsBox from "@/components/MarketTrends";
 
-export default function HomePage() {
+function InsightsPage() {
   const topNews = [
     {
       headline: "Is it accessible?",
@@ -30,7 +31,18 @@ export default function HomePage() {
   ];
   return (
     <div className="flex gap-6 h-full w-full">
-      <LayoffTreemap />
+      <div className="flex-1 flex flex-col justify-start h-full w-full overflow-y-auto p-4">
+        <select className="w-[250px] m-10 ml-6 p-2 border rounded-md">
+          <option value="">Select Company</option>
+          <option value="meta">Meta</option>
+          <option value="google">Google</option>
+          <option value="microsoft">Microsoft</option>
+          <option value="apple">Apple</option>
+          <option value="amazon">Amazon</option>
+        </select>
+        <h1 className="text-2xl font-bold mb-4">Insights</h1>
+        <MarketTrendsBox />
+      </div>
       <ListNews
         newsItems={topNews}
         heading="Top News"
@@ -39,3 +51,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+export default InsightsPage;
