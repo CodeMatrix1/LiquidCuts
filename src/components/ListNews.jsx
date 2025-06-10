@@ -10,8 +10,8 @@ import {
 export default function ListNews({ newsItems, heading, subheading }) {
   return (
     <div className="flex flex-col justify-start h-full w-full flex-1 overflow-y-auto p-4">
-      {heading ? <h1 className="text-2xl font-bold mb-4">{heading}</h1> : null}
-      <p className="text-gray-600">{subheading}</p>
+      {heading && <h1 className="text-2xl font-bold mb-4">{heading}</h1>}
+      {subheading && <p className="text-gray-600">{subheading}</p>}
       <div className="mt-6 w-full rounded-md overflow-hidden">
         <Accordion type="single" collapsible>
           {newsItems.map((item, idx) => (
