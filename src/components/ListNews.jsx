@@ -21,7 +21,7 @@ export default function ListNews({ newsItems, heading, subheading }) {
               className="mb-2 border rounded-lg"
             >
               <AccordionTrigger className="px-6 py-4 font-semibold flex items-center justify-between">
-                <span>{item.headline}</span>
+                <span>{item.title}</span>
               </AccordionTrigger>
               <AccordionContent className="px-4 py-4 bg-gray-100 text-gray-700">
                 <div className="flex flex-col gap-2">
@@ -32,28 +32,44 @@ export default function ListNews({ newsItems, heading, subheading }) {
                       </span>
                       <span
                         className={`font-bold ${
-                          item.impact === "Positive"
-                            ? "text-green-600"
-                            : "text-red-600"
+                          item.sentiment > 0 ? "text-green-600" : "text-red-600"
                         }`}
                       >
-                        {item.impact}
+                        {item.sentiment > 0 ? "Positive" : "Negative"}
                       </span>
                       <span className="ml-2 text-gray-500">
-                        for {item.company}
+                        for {item.ticker}
                       </span>
                     </div>
-
+                    {item.date && (
+                      <div>
+                        <span className="font-semibold text-gray-600">
+                          Date:{" "}
+                        </span>
+                        <span className="font-bold">{item.date}</span>
+                      </div>
+                    )}
                     <div>
                       <span className="font-semibold text-gray-600">
                         Liquidity:{" "}
                       </span>
-                      <span className="font-bold">{item.liquidity}</span>
+                      <span className="font-bold">
+                        {item.liquidity
+                          ? item.liquidity.liquidity_pct_change
+                          : " N/A"}{" "}
+                        %
+                      </span>
                     </div>
                   </div>
                   <div></div>
                   <span className="font-semibold text-gray-600">Details: </span>
-                  <span>{item.summary}</span>
+                  <span>
+                    {item.summary ? item.summary : "N/A"}
+                    <a href={item.url} className="text-blue-500">
+                      {" "}
+                      More...
+                    </a>
+                  </span>
                 </div>
               </AccordionContent>
             </AccordionItem>

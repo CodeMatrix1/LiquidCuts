@@ -1,4 +1,5 @@
 "use client";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import ListNews from "@/components/ListNews";
 import LayoffBarChart from "@/components/LayoffBarChart";
@@ -10,6 +11,9 @@ const MyLineChart = dynamic(() => import("@/components/LineChart"), {
 });
 
 export default function LayoffPage() {
+  const [companyNews, setCompanyNews] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [ticker, setTicker] = useState("");
   const barData = {
     labels: ["Microsoft", "Meta", "Google", "Amazon", "Apple"],
     datasets: [
@@ -81,32 +85,53 @@ export default function LayoffPage() {
       },
     ],
   };
-  const companyNews = [
-    {
-      headline: "Is it accessible?",
-      impact: "Positive",
-      liquidity: "10%",
-      company: "Tailwind CSS",
-      summary:
-        "Tailwind CSS is a utility-first CSS framework that can be used to build responsive and modern user interfaces. However, it may not be suitable for all projects, especially those that require a more traditional approach to styling.",
-    },
-    {
-      headline: "Can I use Tailwind CSS?",
-      impact: "Negative",
-      liquidity: "-5%",
-      company: "Tailwind CSS",
-      summary:
-        "Tailwind CSS is a utility-first CSS framework that can be used to build responsive and modern user interfaces. However, it may not be suitable for all projects, especially those that require a more traditional approach to styling.",
-    },
-    {
-      headline: "Is this dynamic?",
-      impact: "Positive",
-      liquidity: "10%",
-      company: "Tailwind CSS",
-      summary:
-        "Tailwind CSS is a utility-first CSS framework that can be used to build responsive and modern user interfaces. However, it may not be suitable for all projects, especially those that require a more traditional approach to styling.",
-    },
-  ];
+  // const companyNews = [
+  //   {
+  //     headline: "Is it accessible?",
+  //     impact: "Positive",
+  //     liquidity: "10%",
+  //     company: "Tailwind CSS",
+  //     summary:
+  //       "Tailwind CSS is a utility-first CSS framework that can be used to build responsive and modern user interfaces. However, it may not be suitable for all projects, especially those that require a more traditional approach to styling.",
+  //   },
+  //   {
+  //     headline: "Can I use Tailwind CSS?",
+  //     impact: "Negative",
+  //     liquidity: "-5%",
+  //     company: "Tailwind CSS",
+  //     summary:
+  //       "Tailwind CSS is a utility-first CSS framework that can be used to build responsive and modern user interfaces. However, it may not be suitable for all projects, especially those that require a more traditional approach to styling.",
+  //   },
+  //   {
+  //     headline: "Is this dynamic?",
+  //     impact: "Positive",
+  //     liquidity: "10%",
+  //     company: "Tailwind CSS",
+  //     summary:
+  //       "Tailwind CSS is a utility-first CSS framework that can be used to build responsive and modern user interfaces. However, it may not be suitable for all projects, especially those that require a more traditional approach to styling.",
+  //   },
+  // ];
+  useEffect(() => {
+    fetch("/api/fetch-data?collection=layoffs")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setCompanyNews(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, []);
+
+  const handleTickerChange = (e) => {
+    const selectedTicker = e.target.value.toLowerCase();
+    setTicker(selectedTicker);
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (!companyNews) return <div>No data found.</div>;
   return (
     <div className="flex flex-row w-full pt-6">
       <div className="flex flex-col gap-14 h-full w-full">
@@ -115,7 +140,11 @@ export default function LayoffPage() {
       </div>
       <div className="flex flex-col items-start mt-[-40px] h-full w-full">
         <div className="flex flex-col gap-2 w-full">
-          <select className="w-[250px] m-10 ml-6 p-2 border rounded-md">
+          <select
+            className="w-[250px] m-10 ml-6 p-2 border rounded-md"
+            value={ticker}
+            onChange={handleTickerChange}
+          >
             <option value="">Select Company</option>
             <option value="meta">Meta</option>
             <option value="google">Google</option>
@@ -125,7 +154,7 @@ export default function LayoffPage() {
           </select>
           <LiquidityLayoffLineChart data={liqlayoffData} />
           <ListNews
-            newsItems={companyNews}
+            newsItems={companyNews[ticker] || []}
             subheading={"Fetched Layoff news"}
           />
         </div>
