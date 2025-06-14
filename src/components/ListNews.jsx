@@ -26,21 +26,34 @@ export default function ListNews({ newsItems, heading, subheading }) {
               <AccordionContent className="px-4 py-4 bg-gray-100 text-gray-700">
                 <div className="flex flex-col gap-2">
                   <div className="flex flex-row justify-between pr-6">
-                    <div>
-                      <span className="font-semibold text-gray-600">
-                        Outlook :{" "}
-                      </span>
-                      <span
-                        className={`font-bold ${
-                          item.sentiment > 0 ? "text-green-600" : "text-red-600"
-                        }`}
-                      >
-                        {item.sentiment > 0 ? "Positive" : "Negative"}
-                      </span>
-                      <span className="ml-2 text-gray-500">
-                        for {item.ticker}
-                      </span>
-                    </div>
+                    {item.layoffs ? (
+                      <div>
+                        <span className="font-semibold text-gray-600">
+                          Layoffs :{" "}
+                        </span>
+                        <span className="font-bold text-gray-600">
+                          {item.layoffs}
+                        </span>
+                      </div>
+                    ) : (
+                      <div>
+                        <span className="font-semibold text-gray-600">
+                          Outlook :{" "}
+                        </span>
+                        <span
+                          className={`font-bold ${
+                            item.sentiment > 0
+                              ? "text-green-600"
+                              : "text-red-600"
+                          }`}
+                        >
+                          {item.sentiment > 0 ? "Positive" : "Negative"}
+                        </span>
+                        <span className="ml-2 text-gray-500">
+                          for {item.ticker}
+                        </span>
+                      </div>
+                    )}
                     {item.date && (
                       <div>
                         <span className="font-semibold text-gray-600">
@@ -61,7 +74,14 @@ export default function ListNews({ newsItems, heading, subheading }) {
                       </span>
                     </div>
                   </div>
-                  <div></div>
+                  {item.reason && (
+                    <div>
+                      <span className="font-semibold text-gray-600">
+                        Reason:{" "}
+                      </span>
+                      <span>{item.reason}</span>
+                    </div>
+                  )}
                   <span className="font-semibold text-gray-600">Details: </span>
                   <span>
                     {item.summary ? item.summary : "N/A"}

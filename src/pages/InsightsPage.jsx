@@ -54,6 +54,11 @@ function InsightsPage() {
     setTicker(selectedTicker);
   };
 
+  if (loading) return <div>Loading...</div>;
+  if (!insights || insights.length === 0) {
+    return <div className="text-center mt-10">No insights available.</div>;
+  }
+
   return (
     <div className="flex gap-6 h-full w-full">
       <div className="flex-1 mt-[-40px] flex flex-col justify-start h-full w-full p-4">
@@ -71,8 +76,7 @@ function InsightsPage() {
         </select>
         <h1 className="text-xl font-bold mb-4">Insights</h1>
         <div className="flex flex-col gap-4 mb-8">
-          <SentimentLiquidity />
-          <MarketTrendsBox />
+          <SentimentLiquidity data={insights[ticker] || []} />
         </div>
       </div>
       <ListNews newsItems={insights[ticker] || []} heading="Filtered News" />
