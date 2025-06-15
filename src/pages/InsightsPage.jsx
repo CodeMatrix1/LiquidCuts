@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import ListNews from "@/components/ListNews";
-import MarketTrendsBox from "@/components/MarketTrends";
 import SentimentLiquidity from "@/components/SentimentLiquidity";
 
 function InsightsPage() {
@@ -79,7 +78,12 @@ function InsightsPage() {
           <SentimentLiquidity data={insights[ticker] || []} />
         </div>
       </div>
-      <ListNews newsItems={insights[ticker] || []} heading="Filtered News" />
+     {ticker ? (<ListNews newsItems={insights[ticker] || []} heading="Filtered News" />)
+     :(
+      <div className="flex pt-10 flex-col gap-2 w-full">
+        <p>Please select a company to view the data</p>
+      </div>
+     )}
     </div>
   );
 }

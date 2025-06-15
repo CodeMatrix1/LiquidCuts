@@ -3,17 +3,17 @@ import { Chart } from "react-google-charts";
 
 export const data = [
   ["Company", "Parent", "Layoffs"],
-  ["All", null, 0],
-  ["Meta", "All", 11000],
-  ["Amazon", "All", 18000],
-  ["Microsoft", "All", 10000],
-  ["Google", "All", 12000],
-  ["Apple", "All", 8000],
+  ["All", null, 10.11],
+  ["Meta(1.6 T)", "All", 1.6],
+  ["Amazon(2.15 T)", "All", 2.15],
+  ["Microsoft(3.38 T)", "All", 3.38],
+  ["Google(2.08 T)", "All", 2.08],
+  ["Apple(3 T)", "All", 3],
 ];
 export const options = {
-  minColor: "#f00",
-  midColor: "#ddd",
-  maxColor: "#0d0",
+  minColor: "#1976d2",
+  midColor: "#fff176",
+  maxColor: "#d32f2f",
   headerHeight: 15,
   fontColor: "black",
   showScale: true,
