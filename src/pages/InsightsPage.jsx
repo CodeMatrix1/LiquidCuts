@@ -35,7 +35,7 @@ function InsightsPage() {
   // ];
 
   useEffect(() => {
-    fetch("/api/fetch-data?collection=layoffs")
+    fetch("/api/fetch-data?collection=insights")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

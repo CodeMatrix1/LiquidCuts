@@ -68,7 +68,7 @@ export default function ListNews({ newsItems, heading, subheading }) {
                       </span>
                       <span className="font-bold">
                         {item.liquidity
-                          ? item.liquidity.liquidity_pct_change
+                          ? item.liquidity
                           : " N/A"}{" "}
                         %
                       </span>

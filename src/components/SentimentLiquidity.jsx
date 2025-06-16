@@ -15,14 +15,14 @@ export default function SentimentLiquidity({ data }) {
     averageSentiment += data[i].sentiment;
 
     // 2. Fixed liquidity calculation
-    if (data[i].liquidity?.liquidity_pct_change !== undefined) {
-      liquidity += data[i].liquidity.liquidity_pct_change;
+    if (data[i].liquidity !== undefined) {
+      liquidity += data[i].liquidity;
       validLiquidityEntries++;
     }
 
     // 3. Fixed critical events handling
-    if (data[i].critical_events?.length) {
-      data[i].critical_events.forEach((event) => {
+    if (data[i].labels?.length) {
+      data[i].labels.forEach((event) => {
         critical_events[event] = (critical_events[event] || 0) + 1;
       });
     } else {
@@ -30,7 +30,7 @@ export default function SentimentLiquidity({ data }) {
       if (data[i].sentiment > 0) {
         regular_events["Positive Outlook: potential payoff"] += 1;
       }
-      if (Math.abs(data[i].liquidity?.liquidity_pct_change || 0) > 10) {
+      if (Math.abs(data[i].liquidity || 0) > 10) {
         regular_events["Actually impacting liquidity"] += 1;
       }
     }
@@ -51,14 +51,15 @@ export default function SentimentLiquidity({ data }) {
           <div>
             <div className="font-semibold text-sm mb-1">Sentiment</div>
             <div className="flex justify-between text-xs text-gray-600 mb-1">
-              <span>Negative</span>
-              <span>Positive</span>
+              <span>{averageSentiment < 0 ? "Negative" : "0"}</span>
+              <span>{averageSentiment < 0 ? "0" : "Positive"}</span>
             </div>
             <div className="w-full h-2 bg-gray-200 rounded">
               <div
                 className="h-2 bg-black rounded transition-all duration-300"
                 style={{
-                  width: `${sentimentPercent}%`,
+                  width: `${Math.abs(averageSentiment) * 100}%`,
+                  marginLeft: `${averageSentiment > 0 ? 0 : 100 - Math.abs(averageSentiment) * 100}%`
                 }}
               />
             </div>
