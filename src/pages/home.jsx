@@ -1,6 +1,5 @@
 import LayoffTreemap from "@/components/TreeMap";
 import ListNews from "@/components/ListNews";
-import { getData } from "@/shared/config";
 import { useEffect, useState } from "react";
 
 //topnews=[
@@ -13,8 +12,8 @@ export default function HomePage() {
   useEffect(() => {
     fetch("/api/fetch-data?collection=topnews")
       .then((res) => res.json())
-      .then((data) => {
-        setTopnews(data);
+      .then((response) => {
+        setTopnews(response.data);
         setLoading(false);
       })
       .catch(() => setLoading(false));

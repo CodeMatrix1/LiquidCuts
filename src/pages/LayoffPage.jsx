@@ -11,8 +11,8 @@ const MyLineChart = dynamic(() => import("@/components/LineChart"), {
 });
 
 export default function LayoffPage() {
-  const [companyNews, setCompanyNews] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [companyNews, setCompanyNews] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [ticker, setTicker] = useState("");
 
   const liqlayoffData = {
@@ -68,27 +68,30 @@ export default function LayoffPage() {
   //   },
   // ];
   useEffect(() => {
-    fetch("/api/fetch-data?collection=layoffs")
+    if (!ticker) {
+      setCompanyNews([]);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    fetch(`/api/fetch-data?collection=layoffs&ticker=${ticker}`)
       .then((res) => res.json())
-      .then((data) => {
-        console.log("Raw layoffs data:", data);
-        setCompanyNews(data);
+      .then((response) => {
+        console.log("Raw layoffs data:", response.data);
+        setCompanyNews(response.data || []);
         setLoading(false);
       })
       .catch((err) => {
         console.error("Error fetching data:", err);
         setLoading(false);
       });
-  }, []);
+  }, [ticker]);
 
   const handleTickerChange = (e) => {
     const selectedTicker = e.target.value.toLowerCase();
     setTicker(selectedTicker);
   };
-
-  if (loading) return <div>Loading...</div>;
-  if (!companyNews) return <div>No data found.</div>;
-
 
   return (
     <div className="flex flex-row w-full pt-6">
@@ -113,10 +116,14 @@ export default function LayoffPage() {
           {ticker ?(
             <>
            <LiquidityLayoffLineChart ticker={ticker} />
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
           <ListNews
-            newsItems={companyNews[ticker] || []}
+            newsItems={companyNews}
             subheading={"Fetched Layoff news"}
           />
+          )}
            </>):
           (
             <div className="flex flex-col gap-2 w-full">

@@ -1,0 +1,7 @@
+beautifulsoup4
+groq
+pandas
+pymongo
+requests
+transformers
+yfinance

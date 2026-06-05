@@ -6,6 +6,8 @@ import { Chart as ChartJS, LineElement, PointElement, LinearScale, CategoryScale
 // Register Chart.js components
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend);
 
+const companies = ["meta", "apple", "microsoft", "amazon", "google"];
+
 // Example data: X-axis is months, Y-axis is layoff count
 
 
@@ -97,12 +99,17 @@ export default function LayoffLineChart() {
   };
 
   useEffect(() => {
-    fetch('/api/fetch-data?collection=layoffs')
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        setAllData(data);
-      });
+    Promise.all(
+      companies.map((company) =>
+        fetch(`/api/fetch-data?collection=layoffs&ticker=${company}`)
+          .then(response => response.json())
+          .then(response => [company, response.data || []])
+      )
+    ).then(entries => {
+      const data = Object.fromEntries(entries);
+      console.log(data);
+      setAllData(data);
+    });
   }, []);
 
   return (
@@ -112,4 +119,3 @@ export default function LayoffLineChart() {
     </div>
   );
 }
-

@@ -5,7 +5,7 @@ import SentimentLiquidity from "@/components/SentimentLiquidity";
 
 function InsightsPage() {
   const [insights, setInsights] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [ticker, setTicker] = useState("");
   // const topNews = [
   //   {
@@ -35,28 +35,30 @@ function InsightsPage() {
   // ];
 
   useEffect(() => {
-    fetch("/api/fetch-data?collection=insights")
+    if (!ticker) {
+      setInsights([]);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    fetch(`/api/fetch-data?collection=insights&ticker=${ticker}`)
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setInsights(data);
+      .then((response) => {
+        console.log(response.data);
+        setInsights(response.data || []);
         setLoading(false);
       })
       .catch((err) => {
         console.log(err);
         setLoading(false);
       });
-  }, []);
+  }, [ticker]);
 
   const handleTickerChange = (e) => {
     const selectedTicker = e.target.value.toLowerCase();
     setTicker(selectedTicker);
   };
-
-  if (loading) return <div>Loading...</div>;
-  if (!insights || insights.length === 0) {
-    return <div className="text-center mt-10">No insights available.</div>;
-  }
 
   return (
     <div className="flex gap-6 h-full w-full">
@@ -75,10 +77,18 @@ function InsightsPage() {
         </select>
         <h1 className="text-xl font-bold mb-4">Insights</h1>
         <div className="flex flex-col gap-4 mb-8">
-          <SentimentLiquidity data={insights[ticker] || []} />
+          <SentimentLiquidity data={insights} />
         </div>
       </div>
-     {ticker ? (<ListNews newsItems={insights[ticker] || []} heading="Filtered News" />)
+     {ticker ? (
+      loading ? (
+        <div className="flex pt-10 flex-col gap-2 w-full">
+          <p>Loading...</p>
+        </div>
+      ) : (
+        <ListNews newsItems={insights} heading="Filtered News" />
+      )
+     )
      :(
       <div className="flex pt-10 flex-col gap-2 w-full">
         <p>Please select a company to view the data</p>

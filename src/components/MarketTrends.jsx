@@ -1,39 +1,51 @@
 import React from "react";
 
-const trends = [
-  {
-    title: "Postitive Outlook: potential payoff",
-    desc: "This event may require immediate attention",
-    impact: 140,
-  },
-  {
-    title: "Actually impacting liquidity",
-    desc: "This event may require immediate attention",
-    impact: 14,
-  },
-  {
-    title: "Critical Event: layoffs",
-    desc: "This event may require immediate attention",
-    impact: 1,
-  },
-  {
-    title: "Critical Event: legal issues",
-    desc: "This event may require immediate attention",
-    impact: 1,
-  },
-  {
-    title: "Critical Event: leadership changes",
-    desc: "This event may require immediate attention",
-    impact: 1,
-  },
-  {
-    title: "Critical Event: supply side issues",
-    desc: "This event may require immediate attention",
-    impact: 1,
-  },
-];
+// const trends = [
+//   {
+//     title: "Postitive Outlook: potential payoff",
+//     desc: "This event may require immediate attention",
+//     impact: 140,
+//   },
+//   {
+//     title: "Actually impacting liquidity",
+//     desc: "This event may require immediate attention",
+//     impact: 14,
+//   },
+//   {
+//     title: "Critical Event: layoffs",
+//     desc: "This event may require immediate attention",
+//     impact: 1,
+//   },
+//   {
+//     title: "Critical Event: legal issues",
+//     desc: "This event may require immediate attention",
+//     impact: 1,
+//   },
+//   {
+//     title: "Critical Event: leadership changes",
+//     desc: "This event may require immediate attention",
+//     impact: 1,
+//   },
+//   {
+//     title: "Critical Event: supply side issues",
+//     desc: "This event may require immediate attention",
+//     impact: 1,
+//   },
+// ];
 
 export default function MarketTrendsBox() {
+  let critical_events = {};
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].critical_events) {
+      for (const event of data[i].critical_events) {
+        if (event in critical_events) {
+          critical_events[event] += 1;
+        } else {
+          critical_events[event] = 1;
+        }
+      }
+    }
+  }
   return (
     <div className="bg-white rounded-xl shadow p-6 mb-8 w-[500px]">
       <div className="mb-4">

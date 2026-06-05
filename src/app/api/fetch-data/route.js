@@ -1,20 +1,55 @@
-import { getData } from '../route'; // Adjust the import path as needed
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import { getFilteredCollectionData } from "@/lib/data";
+import {
+  ALLOWED_COLLECTIONS,
+  isAllowedCollection,
+  normalizeTicker,
+  requiresTicker,
+} from "@/lib/validators";
 
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
-    const name = searchParams.get("collection");
-    const data = await getData();
+    const collectionName = searchParams.get("collection");
+    const ticker = normalizeTicker(searchParams.get("ticker"));
 
-    if (!name || !data[name]) {
-      return NextResponse({ error: "Invalid or missing collection name" }, { status: 400 });
+    if (!collectionName || !isAllowedCollection(collectionName)) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid or missing collection name",
+          allowedCollections: ALLOWED_COLLECTIONS,
+        },
+        { status: 400 }
+      );
     }
 
-    return NextResponse.json(data[name]);
+    if (requiresTicker(collectionName) && !ticker) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Ticker is required for this collection",
+        },
+        { status: 400 }
+      );
+    }
+
+    const data = await getFilteredCollectionData(collectionName, { ticker });
+
+    return NextResponse.json({
+      success: true,
+      filters: {
+        ticker,
+      },
+      data,
+    });
   } catch (error) {
-        return NextResponse.json(
-      { success: false, message: 'Failed to generate test', error: error.message },
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Failed to fetch data",
+        error: error.message,
+      },
       { status: 500 }
     );
   }

@@ -12,18 +12,24 @@ import {
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
+const companies = ["microsoft", "meta", "google", "amazon", "apple"];
+
 export default function LayoffBarChart() {
   const [barData, setBarData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/fetch-data?collection=layoffs")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Raw layoffs data:", data);
-        
-        // Generate bar chart data from MongoDB data
-        const companies = ["microsoft", "meta", "google", "amazon", "apple"];
+    Promise.all(
+      companies.map((company) =>
+        fetch(`/api/fetch-data?collection=layoffs&ticker=${company}`)
+          .then((res) => res.json())
+          .then((response) => [company, response.data || []])
+      )
+    )
+      .then((entries) => {
+        const data = Object.fromEntries(entries);
+        console.log("Ticker-scoped layoffs data:", data);
+
         console.log("Processing companies:", companies);
         
         const layoffData = companies.map(company => {

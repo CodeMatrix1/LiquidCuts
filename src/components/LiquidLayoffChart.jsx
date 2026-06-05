@@ -67,8 +67,8 @@ export default function LiquidityLayoffLineChart({ ticker }) {
       fetch(`/api/fetch-data?collection=stockdata&ticker=${ticker}`).then(res => res.json())
     ])
       .then(([layoffRes, stockRes]) => {
-        setLayoffData(layoffRes[ticker] || []);
-        setStockData(stockRes[ticker] || []);
+        setLayoffData(layoffRes.data || []);
+        setStockData(stockRes.data || []);
         setLoading(false);
       })
       .catch(error => {
