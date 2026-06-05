@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ListNews from "../components/ListNews";
-import SentimentLiquidity from "../components/SentimentLiquidity";
+import ListNews from "@/components/ListNews";
+import SentimentLiquidity from "@/components/SentimentLiquidity";
 
 function InsightsPage() {
   const [insights, setInsights] = useState([]);

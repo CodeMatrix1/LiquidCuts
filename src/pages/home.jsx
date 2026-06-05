@@ -1,5 +1,5 @@
-import LayoffTreemap from "../components/TreeMap";
-import ListNews from "../components/ListNews";
+import LayoffTreemap from "@/components/Treemap";
+import ListNews from "@/components/ListNews";
 import { useEffect, useState } from "react";
 
 //topnews=[
