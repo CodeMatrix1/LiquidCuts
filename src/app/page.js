@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import HomePage from "@/pages/home";
+import HomePage from "@/views/home";
 import AppSidebar from "@/components/AppSidebar";
 import AuthGate from "@/components/AuthGate";
 import { SidebarProvider } from "@/components/ui/sidebar";

@@ -2,7 +2,7 @@
 import AppSidebar from "@/components/AppSidebar";
 import AuthGate from "@/components/AuthGate";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import LayoffPage from "@/pages/LayoffPage";
+import LayoffPage from "@/views/LayoffPage";
 
 export default function Insights() {
   return (

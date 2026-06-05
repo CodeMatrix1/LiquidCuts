@@ -1,7 +1,7 @@
 "use client"
 import AppSidebar from "@/components/AppSidebar";
 import AuthGate from "@/components/AuthGate";
-import LayoffPage from "@/pages/LayoffPage";
+import LayoffPage from "@/views/LayoffPage";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Layoffs() {
