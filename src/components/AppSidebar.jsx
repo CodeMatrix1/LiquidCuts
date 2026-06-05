@@ -1,5 +1,5 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
-import Image from "next/image";
+import { Calendar, Home, Inbox } from "lucide-react";
+import AuthStatus from "@/components/AuthStatus";
 import {
   Sidebar,
   SidebarContent,
@@ -54,6 +54,7 @@ export default function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <AuthStatus />
       </SidebarContent>
     </Sidebar>
   );

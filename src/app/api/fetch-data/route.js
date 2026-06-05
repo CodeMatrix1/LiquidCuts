@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requireAuth } from "@/lib/auth";
 import { getFilteredCollectionData } from "@/lib/data";
 import {
   ALLOWED_COLLECTIONS,
@@ -9,6 +10,12 @@ import {
 
 export async function GET(request) {
   try {
+    const { error } = await requireAuth(request);
+
+    if (error) {
+      return NextResponse.json(error, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const collectionName = searchParams.get("collection");
     const ticker = normalizeTicker(searchParams.get("ticker"));
