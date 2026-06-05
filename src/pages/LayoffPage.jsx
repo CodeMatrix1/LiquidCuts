@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import ListNews from "@/components/ListNews";
-import LayoffBarChart from "@/components/LayoffBarChart";
-import LiquidityLayoffLineChart from "@/components/LiquidLayoffChart";
+import ListNews from "../components/ListNews";
+import LayoffBarChart from "../components/LayoffBarChart";
+import LiquidityLayoffLineChart from "../components/LiquidLayoffChart";
 
 // Dynamically import the chart with SSR disabled
 const MyLineChart = dynamic(() => import("@/components/LineChart"), {
