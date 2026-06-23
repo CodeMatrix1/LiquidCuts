@@ -2,6 +2,8 @@
 
 LiquidCuts is a **data analysis pipeline** that scrapes, categorizes, and visualizes the **impact of news events on stock prices**. It consolidates information from news articles and financial data to highlight critical events affecting companies’ stock movements.
 
+Visit the Link - [https://liquid-cuts.vercel.app](https://liquid-cuts.vercel.app)
+
 ---
 
 ## 🚀 Features
